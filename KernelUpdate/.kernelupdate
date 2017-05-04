@@ -1,0 +1,17 @@
+#!/bin/bash
+#Author: Federico Lodovici
+#Script I use to check if my kernel is updated with mainline
+
+function version { echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'; }
+
+CURRENT=$(curl -s https://www.kernel.org/ | grep -A1 'mainline:' | grep -oP '(?<=strong>).*(?=</strong.*)')
+RUNNING=$(uname -r)
+
+if [ $(version $CURRENT) -gt $(version $RUNNING) ]; then
+	notify-send 'New kernel version available ' "$CURRENT"  --icon=dialog-warning -u critical
+else
+	notify-send 'Kernel up-to-date' --icon=dialog-information -u low
+fi
+
+
+
