@@ -9,9 +9,12 @@ BACKTITLE="Simple Kernel Config"
 MENU="Choose one of the following options:"
 SELECTION1=(1 "Use mainline kernel sources"
          2 "Use stable kernel sources")
+
 SELECTION2=(1 "Configure graphically with menuconfig"
          2 "Configure new options in verbose mode"
-         3 "Apply the defaults for new option")
+         3 "Apply the defaults for new option"
+	 4 "Use a premade .config"
+	)
 
 DISTRONAME=$(lsb_release -si)
 OPTIONS=$(cat /proc/cmdline | grep root=)
@@ -53,7 +56,7 @@ CHOICE2=$(dialog --clear \
 
 CORE=$(dialog --backtitle "$BACKTITLE"\
 	      --title "Set number of cores"\
-	      --inputbox "Enter your number of core to optimize compilation:"\
+	      --inputbox "Enter your number of core+1 to optimize compilation:"\
 	      $HEIGHT $WIDTH\
 	      3>&1 1>&2 2>&3)
 
@@ -82,18 +85,29 @@ fi
 (pv -n linux-$KERNEL.tar.xz | tar xJf - ) 2>&1 | \
 dialog --backtitle "$BACKTITLE" --gauge "Extracting Sources..." $HEIGHT $WIDTH
 cd linux-$KERNEL
-#copy pre-existent config from boot (if there is any)
-cp /boot/.config .config | :
+
 case $CHOICE2 in
-        1)
+        1)  
+	    cp /boot/.config .config | :
             make menuconfig
             ;;
         2)
+            cp /boot/.config .config
             make oldconfig
             ;;
-        3)
+        3)  
+            cp /boot/.config .config
             make olddefconfig 
             ;;
+	4)
+	    if [ $ARCH = "x86_64" ]; then
+                wget -O .config http://kernel.ubuntu.com/~kernel-ppa/configs/xenial/linux/4.4.0-78.99/amd64-config.flavour.generic
+                make oldefconfig
+            else 
+                wget -O .config http://kernel.ubuntu.com/~kernel-ppa/configs/xenial/linux/4.4.0-78.99/i386-config.flavour.generic
+                make oldefconfig
+           fi
+           ;;                
 esac 
 
 dialog --backtitle "$BACKTITLE"  --title "Kernel Source Compiling" --msgbox "Kernel Source is now going to compile." $HEIGHT $WIDTH 
@@ -106,9 +120,9 @@ cp -v arch/$ARCH/boot/bzImage /boot/vmlinuz-$KERNEL
 #configure systemd-boot
 touch /boot/loader/entries/$DISTRONAME-linux-$KERNEL.conf
 cat > /boot/loader/entries/$DISTRONAME-linux-$KERNEL.conf << EOL
-line 1, title  ${DISTRONAME}
-line 2, linux          /vmlinuz-${KERNEL}
-line 3, options        ${OPTIONS}
+title  ${DISTRONAME}-${ARCH}-${KERNEL}
+linux          /vmlinuz-${KERNEL}
+options        ${OPTIONS}
 EOL
 sed -i '1s/.*/timeout 3/' /boot/loader/loader.conf
 sed -i "2s/.*/default ${DISTRONAME}-linux-${KERNEL}/" /boot/loader/loader.conf

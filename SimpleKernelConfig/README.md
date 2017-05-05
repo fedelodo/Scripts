@@ -6,6 +6,7 @@ Is a simple script written in bash who helps to download and configure latest ma
 1. `dialogs`.
 2. `pv`.
 3. `systemd-boot or goofiboot`.
+4. `build-essential` or similar package for your distro
 
 ## How to use
 
@@ -20,3 +21,4 @@ Is a simple script written in bash who helps to download and configure latest ma
 3. Add the support to patches (maybe with a sort of "patch repo").
 4. Clean the code.
 5. Add the support to initrd creation.
+
