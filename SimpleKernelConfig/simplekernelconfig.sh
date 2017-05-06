@@ -7,7 +7,7 @@ HEIGHT=15
 WIDTH=60
 CHOICE_HEIGHT=4
 BACKTITLE="Simple Kernel Config"
-MENU="Choose one of the following options:"
+MENU="Choose one of the following options:"74
 SELECTION0=(1 "Install"
          2 "Upgrade")
 
@@ -109,7 +109,7 @@ if (dialog --backtitle "$BACKTITLE" \
         fi	  
 fi
 
-if [ !$INSTALL ]; then
+if [ "$INSTALL" = false ]; then
 		CHOICE2=$(dialog \
 				--backtitle "$BACKTITLE" \
 				--title "Set config method (Advanced)" \
@@ -194,7 +194,7 @@ case $CHOICE2 in
             make menuconfig
             ;;
         2)  
-	    if [ !$INSTALL ]; then
+	    if [ "$INSTALL" = false ]; then
 		    cp /boot/.config .config
 		    (make oldconfig) | \
 		    dialog --backtitle "$BACKTITLE" --programbox "Configuring kernel"  $HEIGHT $WIDTH
@@ -216,16 +216,16 @@ Use the  space-bar  to  copy  the current selection into the text-entry window."
 	    fi
 	    ;;
         3)  
-	    if [ !$INSTALL]; then
+	    if [ "$INSTALL" = false ]; then
 		    cp /boot/.config .config
 		    make olddefconfig > /dev/null 2>&1
 	    else
 		    cd /usr/src/linux/linux-$KERNEL
 		    if [ $ARCH = "x86_64" ]; then
-		        wget  –quiet  -O .config http://kernel.ubuntu.com/~kernel-ppa/configs/xenial/linux/4.4.0-78.99/amd64-config.flavour.generic
+		        wget  –-quiet  -O .config http://kernel.ubuntu.com/~kernel-ppa/configs/xenial/linux/4.4.0-78.99/amd64-config.flavour.generic
 		        make oldefconfig > /dev/null 2>&1
 		    else 
-		        wget  –quiet  -O .config http://kernel.ubuntu.com/~kernel-ppa/configs/xenial/linux/4.4.0-78.99/i386-config.flavour.generic
+		        wget  –-quiet  -O .config http://kernel.ubuntu.com/~kernel-ppa/configs/xenial/linux/4.4.0-78.99/i386-config.flavour.generic
 		        make oldefconfig > /dev/null 2>&1
 	            fi
 	    fi
@@ -244,11 +244,11 @@ cp -v arch/$ARCH/boot/bzImage /boot/vmlinuz-$KERNEL
 case $CHOICE3 in
         1) #configure systemd-boot
 	touch /boot/loader/entries/$DISTRONAME-linux-$KERNEL.conf
-	cat > /boot/loader/entries/$DISTRONAME-linux-$KERNEL.conf << EOL
+	cat > /boot/loader/entries/$DISTRONAME-linux-$KERNEL.conf << 'EOF'
 	title  	       ${DISTRONAME}-${ARCH}-${KERNEL}
 	linux          /vmlinuz-${KERNEL}
 	options        ${OPTIONS}
-	EOL
+	EOF
 	sed -i '1s/.*/timeout 3/' /boot/loader/loader.conf
 	sed -i "2s/.*/default ${DISTRONAME}-linux-${KERNEL}/" /boot/loader/loader.conf
 	editbootloaderconfig (/boot/loader/loader.conf)
