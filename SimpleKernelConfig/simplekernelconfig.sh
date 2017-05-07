@@ -38,15 +38,19 @@ EFIPART=""
 EFIDIR=""
 INSTALL=false
 
+
 #function declaration
 #configure the bootloader
-function editbootloaderconfig {
+editbootloaderconfig () {
+	INPUT=/tmp/bootloader.conf.tmp
  	if (dialog --backtitle "$BACKTITLE" \
 		   --title "Configure Bootloader" \
                    --yesno "Do you want to configure manually the bootloader?" $HEIGHT $WIDTH )then
 		dialog --backtitle "$BACKTITLE" --title "$1" --editbox $1 $HEIGHT $WIDTH 2> "${INPUT}"
 		cp ${INPUT} $1
-	fi }
+		rm ${INPUT}
+	fi 
+	}
 
 #gui
 _gui () {
@@ -233,7 +237,7 @@ Use the  space-bar  to  copy  the current selection into the text-entry window."
 esac 
 
 dialog --backtitle "$BACKTITLE" --no-cancel --no-ok --title "Kernel Source Compiling" \
-       --pause "Kernel Source is now going to compile." $HEIGHT $WIDTH 5
+       --pause "Kernel is now going to compile." $HEIGHT $WIDTH 5
 (make clean && make -j$CORE && make -j$CORE modules_install ) | \
 dialog --backtitle "$BACKTITLE" --progressbox "Compiling Sources"  $HEIGHT $WIDTH
 
@@ -244,18 +248,18 @@ cp -v arch/$ARCH/boot/bzImage /boot/vmlinuz-$KERNEL
 case $CHOICE3 in
         1) #configure systemd-boot
 	touch /boot/loader/entries/$DISTRONAME-linux-$KERNEL.conf
-	cat > /boot/loader/entries/$DISTRONAME-linux-$KERNEL.conf << 'EOF'
-	title  	       ${DISTRONAME}-${ARCH}-${KERNEL}
-	linux          /vmlinuz-${KERNEL}
-	options        ${OPTIONS}
-	EOF
+	cat > /boot/loader/entries/$DISTRONAME-linux-$KERNEL.conf <<-EOL
+        title ${DISTRONAME} 
+        linux  /vmlinuz-${KERNEL} 
+        options ${OPTIONS} 
+	EOL
 	sed -i '1s/.*/timeout 3/' /boot/loader/loader.conf
 	sed -i "2s/.*/default ${DISTRONAME}-linux-${KERNEL}/" /boot/loader/loader.conf
-	editbootloaderconfig (/boot/loader/loader.conf)
+	editbootloaderconfig /boot/loader/loader.conf
             ;;
 
         2) #configure grub
-	    editbootloaderconfig (/etc/default/grub)
+	    editbootloaderconfig /etc/default/grub
             grub-mkconfig -o /boot/grub/grub.cfg
             ;;
         3) #configure efibootmg
@@ -271,4 +275,3 @@ if (dialog --backtitle "$BACKTITLE" --title "Process Completed" --yesno "The pro
 else
     exit
 fi
-
