@@ -1,0 +1,58 @@
+acpi \n   LNXCPU   PNP0C0D   PNP0C09 PNP0C0A PNP0C0F   LNXCPU ACPI0003   BOOT0000   PNP0C0F LNXTHERM  LNXVIDEO   PNP0C0F PNP0B00 LNXSYBUS  LNXPWRBN    PNP0C0F   PNP0303 PNP0C02   INT0800 LNXPOWER     PNP0C0A PNP0C0F   PNP0C31 LNXCPU     PNP0200 PNP0C0F   LNXCPU     PNP0C0E PNP0A08 PNP0C0F LNXTHERM PNP0C0B LNXSYBUS  PNP0103 PNP0C04 PNP0100   PNP0C0F LNXSYSTM PNP0F13 IBM0068 PNP0C02   PNP0000     \n
+pnp \n PNP0f13 PNP0b00 PNP0103
+PNP0c01 PNP0c31 PNP0303
+PNP030b PNP0c02 PNP0c02 \n
+i2c \n i915 gmbus dpc i915 gmbus vga DPDDC-D DPDDC-B i915 gmbus dpb i915 gmbus panel i915 gmbus ssc SMBus I801 adapter at 0400 DPDDC-C i915 gmbus dpd \n
+platform \n alarmtimer reg-dummy acpi:PNP0C0D: acpi:PNP0C09: acpi:PNP0C0A: thinkpad_hwmon acpi:ACPI0003: acpi:BOOT0000: platform-framebuffer microcode intel_rapl_msr    acpi:INT0800: acpi:PNP0C0A: thinkpad_acpi coretemp regulatory acpi:PNP0C0E: acpi:PNP0C0B: acpi:PNP0C04: serial8250 i8042 iTCO_wdt acpi:IBM0068: pcspkr \n
+fs \n autofs
+binfmt_misc
+bpf
+cgroup2
+configfs
+debugfs
+devpts
+devtmpfs
+ext4
+fusectl
+fuse.gvfsd-fuse
+fuse.portal
+hugetlbfs
+mqueue
+proc
+pstore
+rpc_pipefs
+securityfs
+selinuxfs
+sysfs
+tmpfs
+tracefs ext4
+swap \n
+acpi \n   LNXCPU   PNP0C0D   PNP0C09 PNP0C0A PNP0C0F   LNXCPU ACPI0003   BOOT0000   PNP0C0F LNXTHERM  LNXVIDEO   PNP0C0F PNP0B00 LNXSYBUS  LNXPWRBN    PNP0C0F   PNP0303 PNP0C02   INT0800 LNXPOWER     PNP0C0A PNP0C0F   PNP0C31 LNXCPU     PNP0200 PNP0C0F   LNXCPU     PNP0C0E PNP0A08 PNP0C0F LNXTHERM PNP0C0B LNXSYBUS  PNP0103 PNP0C04 PNP0100   PNP0C0F LNXSYSTM PNP0F13 IBM0068 PNP0C02   PNP0000     \n
+pnp \n PNP0f13 PNP0b00 PNP0103
+PNP0c01 PNP0c31 PNP0303
+PNP030b PNP0c02 PNP0c02 \n
+i2c \n i915 gmbus dpc i915 gmbus vga DPDDC-D DPDDC-B i915 gmbus dpb i915 gmbus panel i915 gmbus ssc SMBus I801 adapter at 0400 DPDDC-C i915 gmbus dpd \n
+platform \n alarmtimer reg-dummy acpi:PNP0C0D: acpi:PNP0C09: acpi:PNP0C0A: thinkpad_hwmon acpi:ACPI0003: acpi:BOOT0000: platform-framebuffer microcode intel_rapl_msr    acpi:INT0800: acpi:PNP0C0A: thinkpad_acpi coretemp regulatory acpi:PNP0C0E: acpi:PNP0C0B: acpi:PNP0C04: serial8250 i8042 iTCO_wdt acpi:IBM0068: pcspkr \n
+fs \n autofs
+binfmt_misc
+bpf
+cgroup2
+configfs
+debugfs
+devpts
+devtmpfs
+ext4
+fusectl
+fuse.gvfsd-fuse
+fuse.portal
+hugetlbfs
+mqueue
+proc
+pstore
+rpc_pipefs
+securityfs
+selinuxfs
+sysfs
+tmpfs
+tracefs ext4
+swap \n
